@@ -1,4 +1,4 @@
-# vue-starter
+# Vue.js Shirtastic App
 
 ## Project setup
 ```
@@ -19,3 +19,13 @@ npm run build
 ```
 npm run lint
 ```
+
+### Folder structure
+src/
+  assets/
+  common/
+  components/
+  views/
+  App.vue
+  main.js
+  router.js
