@@ -1,50 +1,40 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <div>
-    <b-alert show>Default Alert</b-alert>
-
-    <b-alert variant="success" show>Success Alert</b-alert>
-
-    <b-alert variant="danger"
-             dismissible
-             :show="showDismissibleAlert"
-             @dismissed="showDismissibleAlert=false">
-      Dismissible Alert!
-    </b-alert>
-
-    <b-alert :show="dismissCountDown"
-             dismissible
-             variant="warning"
-             @dismissed="dismissCountDown=0"
-             @dismiss-count-down="countDownChanged">
-      <p>This alert will dismiss after {{dismissCountDown}} seconds...</p>
-      <b-progress variant="warning"
-                  :max="dismissSecs"
-                  :value="dismissCountDown"
-                  height="4px">
-      </b-progress>
-    </b-alert>
-
-    <b-btn @click="showAlert" variant="info" class="m-1">
-      Show alert with count-down timer
-    </b-btn>
-    <b-btn @click="showDismissibleAlert=true" variant="info" class="m-1">
-      Show dismissible alert ({{showDismissibleAlert?'visible':'hidden'}})
-    </b-btn>
-  </div>
-  </div>
+  <b-container fluid class="home-container">
+    <b-row>
+      <Login/>
+      <b-col sm="4" class="image-container">
+        <img alt="Vue logo" src="../assets/logo.png">
+      </b-col>
+      <Signup/>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import Login from '@/components/Login.vue'
+import Signup from '@/components/Signup.vue'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    Login,
+    Signup
   }
 }
 </script>
+<style scoped>
+  .home-container, .home-container > .row {
+    height: 100%;
+  }
+  .image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .image-container > img {
+    width: 100%;
+  }
+</style>
+
