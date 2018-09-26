@@ -1,26 +1,35 @@
 <template>
   <b-container fluid class="home-container">
     <b-row>
-      <Login/>
+      <TheLoginPane v-bind:class="[isSigningUp ? 'hidden' : '' , 'login']"/>
       <b-col sm="4" class="image-container">
         <img alt="Vue logo" src="../assets/logo.png">
       </b-col>
-      <Signup/>
+      <TheSignupPane v-on:signing-up="handleSignupStarted"/>
     </b-row>
   </b-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import Login from '@/components/Login.vue'
-import Signup from '@/components/Signup.vue'
+import TheLoginPane from '@/components/TheLoginPane.vue'
+import TheSignupPane from '@/components/TheSignupPane.vue'
 
 export default {
   name: 'home',
   components: {
-    Login,
-    Signup
+    TheLoginPane,
+    TheSignupPane
+  },
+  data: function () {
+    return {
+      isSigningUp: false
+    }
+  },
+  methods: {
+    handleSignupStarted: function () {
+      this.isSigningUp = true;
+    }
   }
 }
 </script>
@@ -35,6 +44,20 @@ export default {
   }
   .image-container > img {
     width: 100%;
+  }
+
+  .login {
+    transition: 1s linear;
+  }
+  /* 
+    When the signup flow has been started, we 
+    want to hide the login options... but we 
+    want to do it nicely, not abruptly.
+   */
+  .login.hidden {
+    max-width: 0px; 
+    overflow:hidden; 
+    padding: 0px;
   }
 </style>
 

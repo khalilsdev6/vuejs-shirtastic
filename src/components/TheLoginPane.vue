@@ -5,10 +5,14 @@
   </b-container>
   <b-container v-else>
     <h1>Log in</h1>
-    <button class="btn btn-primary">
+    <button 
+      @click="doSocialLogin" 
+      class="btn btn-primary">
       <img src="../assets/facebook.svg"/>With Facebook
     </button>
-    <button class="btn btn-primary">
+    <button 
+      @click="doSocialLogin"
+      class="btn btn-primary">
       <img src="../assets/twitter.svg"/>With Twitter
     </button>
     <div class="login-container-divider">
@@ -56,6 +60,7 @@
 <script>
 import UserApiService from '@/common/user-api.service'
 import {DoubleBounce} from 'vue-loading-spinner'
+import Router from '@/router'
 export default {
   components: {
     DoubleBounce
@@ -105,12 +110,25 @@ export default {
         try {
           await this.UserApiService.login(email, password)
           this.isSubmitting = false;
+          Router.push({ name: 'catalog' })
         } catch (err) {
           console.log(err)
           this.isSubmitting = false
 
         }   
       }
+    },
+    doSocialLogin: function (e) {
+      e.preventDefault();
+      // Normally, we would utilize a package such as 
+      // passport.js and implement an authentication 
+      // strategy, but for the scope of this application, 
+      // we will just mock the request.
+      this.isSubmitting = true;
+      setTimeout(() => {
+        this.isSubmitting = false;
+        Router.push({ name: 'catalog' })
+      }, 1000);
     }
   }
 }

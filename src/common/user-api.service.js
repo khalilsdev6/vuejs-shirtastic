@@ -27,7 +27,7 @@ const UserApiService = {
           .catch((error) => {
             throw new Error(`[Create] UserApiService ${error}`)
           })
-      }, 10000)
+      }, 2500)
     })
   },
 

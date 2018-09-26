@@ -43,4 +43,15 @@ input {
   color: #111;
 }
 
+select {
+  border: solid 1px #949494;
+  padding: 10px;
+  border-radius: 4px;
+  color: #111;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #11a2dc;
+}
+
 </style>
