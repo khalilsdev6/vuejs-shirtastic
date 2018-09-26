@@ -35,4 +35,12 @@ button > img {
 h1, h2, h3, h4 {
   font-weight: 800 !important;
 }
+
+input {
+  border: solid 1px #949494;
+  padding: 10px;
+  border-radius: 4px;
+  color: #111;
+}
+
 </style>

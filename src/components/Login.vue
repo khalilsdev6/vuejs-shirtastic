@@ -20,11 +20,16 @@
     </div>
 
     <div id='login-form'>
-      <input v-model="email" type="text" id="email" placeholder="Enter your best email address">
-      <label for="email">Email Address</label>
-      <input v-model="password" type="password" id="password" placeholder="Enter a password">
-      <label for="password">Password</label>
+      <label>Email Address</label>
+      <input v-model="email" type="text" placeholder="Enter your best email address">
+      
+      <label>Password</label>
+      <input v-model="password" type="password" placeholder="Enter a password">
     </div>
+
+    <button class="btn btn-primary">
+      Log in
+    </button>
   </b-container>
 </b-col>
 </template>
@@ -57,8 +62,10 @@ export default {
   align-items: center;
   height: 100%;
   max-width: 300px;
-  height: 44vh;
+  height: 65vh;
   justify-content: space-evenly;
+  max-height: 500px;
+  min-height: 400px;
 }
 
 .login-container h1, .login-container h2 {
@@ -87,5 +94,23 @@ export default {
 .login-container-divider h4 {
   padding-left: 1em;
   padding-right: 1em;
+}
+
+#login-form {
+  width: 100%;
+}
+
+#login-form label, #login-form input {
+  display: block;
+  width: 100%;
+}
+
+#login-form label {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+#login-form input {
+  margin-bottom: 1em !important;
 }
 </style>
