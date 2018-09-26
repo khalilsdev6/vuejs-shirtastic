@@ -1,47 +1,119 @@
 <template>
 <b-col class="login-container">
-
-  <b-container>
+  <b-container class="spinner" v-if="isSubmitting">
+    <double-bounce></double-bounce>
+  </b-container>
+  <b-container v-else>
     <h1>Log in</h1>
     <button class="btn btn-primary">
-      <img src="../assets/facebook.svg"/>
-      With Facebook
+      <img src="../assets/facebook.svg"/>With Facebook
     </button>
-
     <button class="btn btn-primary">
-      <img src="../assets/twitter.svg"/>
-      With Twitter
+      <img src="../assets/twitter.svg"/>With Twitter
     </button>
-
     <div class="login-container-divider">
       <div class="divider"></div>
       <h4>OR</h4>
       <div class="divider"></div>
     </div>
-
-    <div id='login-form'>
-      <label>Email Address</label>
-      <input v-model="email" type="text" placeholder="Enter your best email address">
-      
-      <label>Password</label>
-      <input v-model="password" type="password" placeholder="Enter a password">
+    <form 
+      ref="form"
+      id='login-form'>
+      <label 
+        for="login-email">Email Address
+      </label>
+      <input 
+        id="login-email"
+        v-model="email" 
+        type="text" 
+        placeholder="Enter your best email address">
+      <label 
+        for="login-password">Password
+      </label>
+      <input 
+        id="login-password"
+        v-model="password" 
+        type="password" 
+        placeholder="Enter a password">
+    </form>
+    <div v-if="errors.length !== 0">
+      <ul class="errors-list">
+        <li 
+          v-for="(error, key) of errors"
+          :key="key">
+          {{ error }}
+        </li>
+      </ul>
     </div>
-
-    <button class="btn btn-primary">
+    <button 
+      @click="onSubmit($event)" 
+      class="btn btn-primary">
       Log in
     </button>
   </b-container>
 </b-col>
 </template>
 <script>
+import UserApiService from '@/common/user-api.service'
+import {DoubleBounce} from 'vue-loading-spinner'
 export default {
+  components: {
+    DoubleBounce
+  },
   data: function () {
     return {
-      email: "khalilstemmler@gmail.com",
-      password: ""
+      email: "",
+      password: "",
+      errors: [],
+      isSubmitting: false
+    }
+  },
+  created: function () {
+    this.UserApiService = UserApiService;
+    this.validateEmail = () => {
+      const email = this.email;
+      const re = /\S+@\S+\.\S+/;
+      return re.test(email);
+    }
+    this.validatePassword = () => {
+      const password = this.password;
+      if (password.length < 8) {
+        return false;
+      }
+      return true;
+    }
+  },
+  methods: {
+    checkForm: function() {
+      this.errors = [];
+      if (!this.validateEmail()) {
+        this.errors.push('Please enter a valid email')
+      }
+      if (!this.validatePassword()) {
+        this.errors.push('Please enter a password of at least 8 characters')
+      }
+      if (this.errors.length === 0) {
+        return true;
+      }
+      return false;
+    },
+    onSubmit: async function (e) {
+      e.preventDefault();
+      if (this.checkForm()) {
+        const { email, password } = this;
+        this.isSubmitting = true;
+        try {
+          await this.UserApiService.login(email, password)
+          this.isSubmitting = false;
+        } catch (err) {
+          console.log(err)
+          this.isSubmitting = false
+
+        }   
+      }
     }
   }
-};
+}
 </script>
 <style scoped>
 .login-container {
@@ -112,5 +184,18 @@ export default {
 
 #login-form input {
   margin-bottom: 1em !important;
+}
+
+.errors-list li {
+  color: #b6b6b6;
+}
+
+.spinner {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
+  color: blue !important;
 }
 </style>

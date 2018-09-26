@@ -10,13 +10,13 @@
 
     <div id='signup-form'>
       <label>Email Address</label>
-      <input v-model="email" type="text" placeholder="Enter your best email address">
+      <input v-model="email" type="text" placeholder="Your email address">
       
       <label>Password</label>
-      <input v-model="password" type="password" placeholder="Enter a password">
+      <input v-model="password" type="password">
 
       <label>Confirm Password</label>
-      <input v-model="confirmPassword" type="password" placeholder="Confirm password">
+      <input v-model="confirmPassword" type="password">
     </div>
     
     <p>By clicking the Sign Up button below, you agree to our
@@ -39,7 +39,7 @@ export default {
       step: 1
     };
   }
-};
+}
 </script>
 <style scoped>
 .signup-container {
