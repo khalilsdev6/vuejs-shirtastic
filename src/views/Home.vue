@@ -1,11 +1,14 @@
 <template>
   <b-container fluid class="home-container">
     <b-row>
-      <TheLoginPane v-bind:class="[isSigningUp ? 'hidden' : '' , 'login']"/>
+      <TheLoginPane 
+        v-bind:class="[isSigningUp ? 'hidden' : '' , 'login']"/>
       <b-col sm="4" class="image-container">
         <img alt="Vue logo" src="../assets/logo.png">
       </b-col>
-      <TheSignupPane v-on:signing-up="handleSignupStarted"/>
+      <TheSignupPane 
+        v-on:signing-up="handleSignupStarted"
+      />
     </b-row>
   </b-container>
 </template>
@@ -46,9 +49,6 @@ export default {
     width: 100%;
   }
 
-  .login {
-    transition: 1s linear;
-  }
   /* 
     When the signup flow has been started, we 
     want to hide the login options... but we 

@@ -1,153 +1,63 @@
 <template>
-<b-col v-bind:class="['signup-container', step === 2 ? 'expanded': '']">
-  <b-container>
-    <div v-if="step === 1">
+<b-col 
+  v-bind:class="['signup-container', step === 2 ? 'expanded': '']"
+  v-bind:sm="step === 2 ? '8' : '4'"
+  >
+  <b-container v-if="step === 1">
+    <div>
       <h1>Sign up</h1>
-      <div class="steps-container">
-        <div v-bind:class="[step === 1 ? 'selected' : '']">Step 1</div>
-        <div v-bind:class="[step === 2 ? 'selected' : '']">Step 2</div>
-      </div>
+      <SignupSteps v-bind:step="Number(1)"/>
       <div id='signup-form'>
         <label>Email Address</label>
-        <input v-model="email" type="text" placeholder="Your email address">
-        
+        <input 
+          v-model="email" 
+          type="text" 
+          placeholder="Your email address"
+          @keyup.enter="advance">
         <label>Password</label>
-        <input v-model="password" type="password">
+        <input 
+          v-model="password" 
+          type="password"
+          @keyup.enter="advance">
 
         <label>Confirm Password</label>
-        <input v-model="confirmPassword" type="password">
+        <input 
+          v-model="confirmPassword" 
+          type="password"
+          @keyup.enter="advance">
       </div>
-      
       <p>By clicking the Sign Up button below, you agree to our
         <u>Terms of Service</u> and <u>Privacy Policy</u>.
       </p>
-
-      <div v-if="errors.length !== 0">
-        <ul class="errors-list">
-          <li 
-            v-for="(error, key) of errors"
-            :key="key">
-            {{ error }}
-          </li>
-        </ul>
-      </div>
-
+      <SignupErrors v-bind:errors="errors"/>
       <button 
         @click="advance" 
         class="btn btn-primary">
           Sign up
       </button>
     </div>
-    <div v-if="step === 2">
-      <b-container fluid>
-        <div class="steps-container">
-          <div v-bind:class="[step === 1 ? 'selected' : '']">Step 1</div>
-          <div v-bind:class="[step === 2 ? 'selected' : '']">Step 2</div>
-        </div>
-        <h2>Awesome</h2>
-        <p>Welcome to the club, where can we ship your shirts to? You can 
-          always provide this information at checkout.
-        </p>
-        <b-row>
-          <b-col sm="12">
-            <BaseInput title="Name">
-              <input 
-                v-model="name" 
-                type="text" 
-                placeholder="Johnny Appleseed">
-            </BaseInput>  
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <BaseInput title="Address 1">
-              <input 
-                v-model="address1"
-                type="text" 
-                placeholder="123 Anywhere Ave">
-            </BaseInput>            
-          </b-col>
-          <b-col>
-            <BaseInput title="Address 2">
-              <input 
-                v-model="address2"
-                type="text" 
-                placeholder="Suite 101">
-            </BaseInput>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <BaseInput title="Phone number">
-              <input 
-                v-model="phoneNumber"
-                type="text" 
-                placeholder="555-123-4567">
-            </BaseInput>
-          </b-col>
-          <b-col>
-            <BaseInput title="City">
-              <input 
-                v-model="city"
-                type="text" 
-                placeholder="Toronto">
-            </BaseInput>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <BaseInput title="Country">
-              <select v-model="country">
-                <option disabled value="">Select an option</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-              </select>
-            </BaseInput>
-          </b-col>
-          <b-col>
-            <b-row>
-              <b-col sm="6">
-                <BaseInput title="Province">
-                  <select v-model="province">
-                    <option disabled value="">Select an option</option>
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                  </select>
-                </BaseInput>                
-              </b-col>
-              <b-col sm="6">
-                <BaseInput title="Postal code">
-                  <input 
-                    v-model="postalCode"
-                    type="text" 
-                    placeholder="L5N 2N5">
-                </BaseInput>                 
-              </b-col>
-            </b-row>
-          </b-col>
-        </b-row>
-      </b-container>
-    </div>
   </b-container>
+  <SignupShippingForm 
+    v-else
+  />
 </b-col>
 </template>
 <script>
+import SignupSteps from './SignupSteps'
+import SignupErrors from './SignupErrors'
+import SignupShippingForm from './SignupShippingForm'
+
 export default {
+  components: {
+    SignupSteps,
+    SignupErrors,
+    SignupShippingForm
+  },
   data: function () {
     return {
       email: "",
       password: "",
       confirmPassword: "",
-      name: '',
-      address1: '',
-      address2: '',
-      phoneNumber: '',
-      city: '',
-      country: '',
-      province: '',
-      postalCode: '',
       step: 1,
       errors: [],
       isSubmitting: false
@@ -212,13 +122,8 @@ export default {
   methods: {
     advance: function () {
       if(this.checkPageOne()) {
-        if (this.step === 1) {
-          this.$emit('signing-up');
-          this.step = 2;
-        } 
-        else {
-          console.log('submit')
-        }
+        this.$emit('signing-up');
+        this.step = 2;
       }
     }
   }
@@ -252,6 +157,7 @@ export default {
 
 .signup-container.expanded > div {
   max-width: unset;
+  height: unset;
 }
 
 .signup-container h1,
@@ -263,31 +169,6 @@ export default {
 .signup-container label,
 .signup-container h4 {
   color: white;
-}
-
-.steps-container {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  border-bottom: solid 1px white;
-  margin-bottom: 10px;
-}
-
-.steps-container > div {
-  padding-bottom: 1em;
-  font-weight: bold;
-  transition: 0.2s ease-in;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.steps-container > div {
-  opacity: 0.5;
-}
-
-.steps-container > div.selected {
-  border-bottom: solid 2px white;
-  opacity: 1;
 }
 
 #signup-form {
