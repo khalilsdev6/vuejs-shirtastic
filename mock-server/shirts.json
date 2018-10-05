@@ -15,6 +15,7 @@
       "name": "white",
       "color": "#FFFFFF"
     },
+    "shirtDesign": "WomensShirtDesigns-3.jpg",
     "shirtStyle": "WomensShirt",
     "shirtColor": {
       "name": "blue",
@@ -41,6 +42,7 @@
       "name": "green",
       "color": "#44A265"
     },
+    "shirtDesign": "MensShirtDesigns-2.jpg",
     "shirtStyle": "MensShirt",
     "shirtColor": {
       "name": "red",
@@ -67,6 +69,7 @@
       "name": "white",
       "color": "#FFFFFF"
     },
+    "shirtDesign": "WomensShirtDesigns-2.jpg",
     "shirtStyle": "WomensShirt",
     "shirtColor": {
       "name": "red",
@@ -93,6 +96,7 @@
       "name": "white",
       "color": "#FFFFFF"
     },
+    "shirtDesign": "MensShirtDesigns-3.jpg",
     "shirtStyle": "MensShirt",
     "shirtColor": {
       "name": "black",
@@ -119,6 +123,7 @@
       "name": "white",
       "color": "#FFFFFF"
     },
+    "shirtDesign": "MensShirtDesigns-4.jpg",
     "shirtStyle": "MensShirt",
     "shirtColor": {
       "name": "white",
@@ -145,6 +150,7 @@
       "name": "white",
       "color": "#FFFFFF"
     },
+    "shirtDesign": "WomensShirtDesigns-1.jpg",
     "shirtStyle": "WomensShirt",
     "shirtColor": {
       "name": "white",
@@ -171,6 +177,7 @@
       "name": "white",
       "color": "#FFFFFF"
     },
+    "shirtDesign": "MensShirtDesigns-1.jpg",
     "shirtStyle": "MensShirt",
     "shirtColor": {
       "name": "green",
@@ -197,6 +204,7 @@
       "name": "white",
       "color": "#FFFFFF"
     },
+    "shirtDesign": "MensShirtDesigns-5.jpg",
     "shirtStyle": "MensShirt",
     "shirtColor": {
       "name": "blue",

@@ -8,10 +8,13 @@
   font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
+  background-color: #eee;
 }
-button {
+.btn {
   background-color: #10A2DC !important;
   font-weight: bold !important;
   text-transform: uppercase !important;
@@ -22,27 +25,23 @@ button {
   min-width: 155px;
   box-shadow: 1px 4px 10px 0.2px rgba(0, 0, 0, 0.3);
 }
-button:hover {
+.btn:hover {
   background-color: #00B7FF !important;
   box-shadow: 1px 4px 10px 0.2px rgba(0, 0, 0, 0.3) !important;
 }
-
-button > img {
+.btn > img {
   height: 20px;
   margin-right: 10px;
 }
-
 h1, h2, h3, h4 {
   font-weight: 800 !important;
 }
-
 input {
   border: solid 1px #949494;
   padding: 10px;
   border-radius: 4px;
   color: #111;
 }
-
 select {
   border: solid 1px #949494;
   padding: 10px;
@@ -53,5 +52,4 @@ select {
   appearance: none;
   color: #11a2dc;
 }
-
 </style>
