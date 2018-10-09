@@ -3,9 +3,9 @@
         <div class="tabs-wrapper">
             <ul class="tabs">
                 <li
-                  :class="[{active: tab.id == currentTab}, 'genderTab']"
+                  :class="[{active: tab.gender === currentTab}, 'genderTab']"
                   v-for="tab of tabs" v-bind:key="tab.id"
-                  @click="$emit('handleTabChange', tab.id)"
+                  @click="$emit('tab-change', tab.gender)"
                 >
                     {{ tab.text }}
                 </li>
