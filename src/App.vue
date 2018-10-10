@@ -24,10 +24,17 @@
   transition: 0.2s ease-in-out;
   min-width: 155px;
   box-shadow: 1px 4px 10px 0.2px rgba(0, 0, 0, 0.3);
+  color: #FFF;
+  border: none;
+}
+.btn-secondary {
+  border: none !important;
+  border-color: transparent !important;
 }
 .btn:hover {
   background-color: #00B7FF !important;
   box-shadow: 1px 4px 10px 0.2px rgba(0, 0, 0, 0.3) !important;
+  border: none;
 }
 .btn > img {
   height: 20px;

@@ -17,16 +17,16 @@
                         <b-button @click="$emit('remove', shirt.id)" class="shopping_item--delete">&#x2715;</b-button>
                     </b-col>
                 </b-row>
-                <b-row no-gutters="">
+                <b-row no-gutters>
                     <b-col>
-                        <b-select name="shopping_item--size" id="shirt-size" value="">
-                            <option value="">Select size</option>
-                            <option value="XS">Extra Small</option>
-                            <option value="S">Small</option>
-                            <option value="M">Medium</option>
-                            <option value="L">Large</option>
-                            <option value="XL">Extra Large</option>
-                        </b-select>
+                        <b-form-group id="shirt-size"
+                                        label-for="shirt-size">
+                            <b-form-select class="shopping_item--size" id="shirt-size"
+                                        :options="shirtSize"
+                                        required
+                                        v-model="form.shirtSize">
+                            </b-form-select>
+                        </b-form-group>
                     </b-col>
                 </b-row>
                 <b-row no-gutters="">
@@ -50,7 +50,20 @@
 <script>
 export default {
   name: "shopping-item",
-  props: ["shirt", "lastIndex", "currentIndex"]
+  props: ["shirt", "lastIndex", "currentIndex"],
+  data: function() {
+      return {
+          form: {
+              shirtSize: ''
+          },
+          shirtSize: [
+              {text: 'Select Size', value: ''},
+              {text: 'Small', value: 'S'},
+              {text: 'Medium', value: 'M'},
+              {text: 'Large', value: 'L'},
+          ]
+      }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -83,6 +96,9 @@ export default {
   }
   &--size {
       width: 150px;
+      margin: 10px 0 0;
+      font-weight: 600;
+      color: #11a2dc;
   }
   &--quantity {
     display: inline-block;
