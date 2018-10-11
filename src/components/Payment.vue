@@ -9,37 +9,37 @@
         <b-row>
             <b-col>
                 <b-form @submit="onSubmit">
-                    <b-form-group id="creditCardNumber"
-                                    label="Credit Card Number"
-                                    label-for="creditCardNumber">
-                        <b-form-input id="creditCardNumber"
-                                    type="number"
-                                    v-model.number.trim="form.creditCardNumber"
-                                    required
-                                    placeholder="•••• •••• •••• 1234">
-                        </b-form-input>
+                    <b-form-group
+                        id="creditCardNumber"
+                        label="Credit Card Number"
+                        label-for="creditCardNumber"
+                    >
+                        <b-form-input
+                            id="creditCardNumber"
+                            type="number"
+                            v-model.number.trim="form.creditCardNumber"
+                            required
+                            placeholder="•••• •••• •••• 1234"
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="expiration"
-                                    label="Expiration"
-                                    label-for="expiration">
-                        <b-form-input id="expiration"
-                                    type="text"
-                                    v-model.trim="form.expiration"
-                                    required
-                                    placeholder="MM/YY">
-                        </b-form-input>
+                    <b-form-group id="expiration" label="Expiration" label-for="expiration">
+                        <b-form-input
+                            id="expiration"
+                            type="text"
+                            v-model.trim="form.expiration"
+                            required
+                            placeholder="MM/YY"
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="ccv"
-                                    label="CCV"
-                                    label-for="ccv">
-                        <b-form-input id="ccv"
-                                    type="text"
-                                    v-model.number.trim="form.ccv"
-                                    required
-                                    placeholder="123">
-                        </b-form-input>
+                    <b-form-group id="ccv" label="CCV" label-for="ccv">
+                        <b-form-input
+                            id="ccv"
+                            type="text"
+                            v-model.number.trim="form.ccv"
+                            required
+                            placeholder="123"
+                        ></b-form-input>
                     </b-form-group>
-                    
                     <b-row>
                         <b-col>
                             <p>Subtotal:</p>
@@ -73,17 +73,17 @@
                             <h4 class="payments--total">${{ total }}</h4>
                         </b-col>
                     </b-row>
-
                     <b-row>
                         <b-col class="text-right py-3">
-                            <b-button class="payments--btn" @click="$emit('show-order-complete')">Checkout <span class="payments--right-arrow">&#10003;</span></b-button>
+                            <b-button class="payments--btn" @click="$emit('show-order-complete')">
+                                Checkout
+                                <span class="payments--right-arrow">&#10003;</span>
+                            </b-button>
                         </b-col>
                     </b-row>
-                    
                 </b-form>
             </b-col>
         </b-row>
-        
     </div>
 </template>
 <script>
@@ -94,10 +94,10 @@ export default {
     return {
       form: {
         creditCardNumber: 1234123412341234,
-        expiration: '10/20',
-        ccv: '123',
+        expiration: "10/20",
+        ccv: "123"
       },
-      shipping: 9.99,
+      shipping: 9.99
     };
   },
   methods: {
@@ -110,13 +110,17 @@ export default {
       }
       if (this.showShoppingCart && this.showShipping && this.showPayments) {
         return { right: 0 };
-      } 
+      }
     },
     tax: function() {
-        return (this.subtotal * 0.13).toFixed(2);
+      return (this.subtotal * 0.13).toFixed(2);
     },
     total: function() {
-        return (parseFloat(this.subtotal, 2) + parseFloat(this.tax, 2) + this.shipping).toFixed(2);
+      return (
+        parseFloat(this.subtotal, 2) +
+        parseFloat(this.tax, 2) +
+        this.shipping
+      ).toFixed(2);
     }
   }
 };
@@ -162,7 +166,7 @@ export default {
     color: #11a2dc;
   }
   #creditCardNumber {
-      font-size: 18px;
+    font-size: 18px;
   }
 }
 </style>

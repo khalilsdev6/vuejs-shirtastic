@@ -12,7 +12,7 @@ const regions = {
     'Prince Edward Island',
     'Quebec',
     'Saskatchewan',
-    'Yukon'
+    'Yukon',
   ],
   usa: [
     'Alabama',
@@ -71,8 +71,8 @@ const regions = {
     'Northern Mariana Islands',
     'Puerto Rico',
     'United States Minor Outlying Islands',
-    'Virgin Islands'
-  ]
-}
+    'Virgin Islands',
+  ],
+};
 
-export default regions
+export default regions;

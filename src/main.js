@@ -8,8 +8,10 @@ import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 
 import UserApiService from '@/common/user-api.service'
+import ShirtsApiService from '@/common/shirts-api.service'
 
 UserApiService.init()
+ShirtsApiService.init()
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false

@@ -1,140 +1,117 @@
 <template>
-<b-col class="login-container">
-  <b-container class="spinner" v-if="isSubmitting">
-    <double-bounce></double-bounce>
-  </b-container>
-  <b-container v-else>
-    <h1>Log in</h1>
-    <button 
-      @click="doSocialLogin" 
-      class="btn btn-primary">
-      <img src="../assets/facebook.svg"/>With Facebook
-    </button>
-    <button 
-      @click="doSocialLogin"
-      class="btn btn-primary">
-      <img src="../assets/twitter.svg"/>With Twitter
-    </button>
-    <div class="login-container-divider">
-      <div class="divider"></div>
-      <h4>OR</h4>
-      <div class="divider"></div>
-    </div>
-    <form 
-      ref="form"
-      id='login-form'>
-      <label 
-        for="login-email">Email Address
-      </label>
-      <input 
-        id="login-email"
-        v-model="email" 
-        type="text" 
-        placeholder="Enter your best email address">
-      <label 
-        for="login-password">Password
-      </label>
-      <input 
-        id="login-password"
-        v-model="password" 
-        type="password" 
-        placeholder="Enter a password">
-    </form>
-    <div v-if="errors.length !== 0">
-      <ul class="errors-list">
-        <li 
-          v-for="(error, key) of errors"
-          :key="key">
-          {{ error }}
-        </li>
-      </ul>
-    </div>
-    <button 
-      @click="onSubmit($event)" 
-      class="btn btn-primary">
-      Log in
-    </button>
-  </b-container>
-</b-col>
+  <b-col class="login">
+    <b-container class="login--spinner" v-if="isSubmitting">
+      <double-bounce></double-bounce>
+    </b-container>
+    <b-container v-else>
+      <h1>Log in</h1>
+      <b-button @click="doSocialLogin" class="login--facebook">
+        <b-img :src="require('../assets/facebook.svg')" fluid/>
+        <span class="login--facebook-text">With Facebook</span>
+      </b-button>
+      <b-button @click="doSocialLogin" class="login--twitter">
+        <b-img :src="require('../assets/twitter.svg')" fluid/>
+        <span class="login--twitter-text">With Twitter</span>
+      </b-button>
+      <div class="login--divider">
+        <div class="login--divider-block"></div>
+        <h4>OR</h4>
+        <div class="login--divider-block"></div>
+      </div>
+      <form ref="form" id="login-form" @submit.prevent="onSubmit">
+        <label for="login-email">Email Address</label>
+        <input id="login-email" v-model="email" type="text">
+        <label for="login-password">Password</label>
+        <input id="login-password" v-model="password" type="password">
+        <div v-if="errors.length !== 0">
+          <ul class="errors-list">
+            <li v-for="(error, key) of errors" :key="key">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="text-center">
+          <b-button class="mt-4" type="submit">Log in</b-button>
+        </div>
+      </form>
+    </b-container>
+  </b-col>
 </template>
 <script>
-import UserApiService from '@/common/user-api.service'
-import {DoubleBounce} from 'vue-loading-spinner'
-import Router from '@/router'
+import UserApiService from "@/common/user-api.service";
+import { DoubleBounce } from "vue-loading-spinner";
+import Router from "@/router";
 export default {
   components: {
     DoubleBounce
   },
-  data: function () {
+  data: function() {
     return {
       email: "",
       password: "",
       errors: [],
       isSubmitting: false
-    }
+    };
   },
-  created: function () {
+  created: function() {
     this.UserApiService = UserApiService;
     this.validateEmail = () => {
       const email = this.email;
       const re = /\S+@\S+\.\S+/;
       return re.test(email);
-    }
+    };
     this.validatePassword = () => {
       const password = this.password;
       if (password.length < 8) {
         return false;
       }
       return true;
-    }
+    };
   },
   methods: {
     checkForm: function() {
       this.errors = [];
       if (!this.validateEmail()) {
-        this.errors.push('Please enter a valid email')
+        this.errors.push("Please enter a valid email");
       }
       if (!this.validatePassword()) {
-        this.errors.push('Please enter a password of at least 8 characters')
+        this.errors.push("Please enter a password of at least 8 characters");
       }
       if (this.errors.length === 0) {
         return true;
       }
       return false;
     },
-    onSubmit: async function (e) {
+    onSubmit: async function(e) {
       e.preventDefault();
       if (this.checkForm()) {
         const { email, password } = this;
         this.isSubmitting = true;
         try {
-          await this.UserApiService.login(email, password)
+          await this.UserApiService.login(email, password);
           this.isSubmitting = false;
-          Router.push({ name: 'catalog' })
+          Router.push({ name: "catalog" });
         } catch (err) {
-          console.log(err)
-          this.isSubmitting = false
-
-        }   
+          console.log(err);
+          this.isSubmitting = false;
+        }
       }
     },
-    doSocialLogin: function (e) {
+    doSocialLogin: function(e) {
       e.preventDefault();
-      // Normally, we would utilize a package such as 
-      // passport.js and implement an authentication 
-      // strategy, but for the scope of this application, 
+      // Normally, we would utilize a package such as
+      // passport.js and implement an authentication
+      // strategy, but for the scope of this application,
       // we will just mock the request.
       this.isSubmitting = true;
       setTimeout(() => {
         this.isSubmitting = false;
-        Router.push({ name: 'catalog' })
+        Router.push({ name: "catalog" });
       }, 1000);
     }
   }
-}
+};
 </script>
-<style scoped>
-.login-container {
+<style lang="scss" scoped>
+.login {
   background: url("../assets/Fractal.png");
   background-position: center;
   background-repeat: no-repeat;
@@ -144,76 +121,80 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
 
-.login-container > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  max-width: 300px;
-  height: 65vh;
-  justify-content: space-evenly;
-  max-height: 500px;
-  min-height: 400px;
-}
+  &--spinner {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: blue !important;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    max-width: 300px;
+    justify-content: space-around;
+    max-height: 500px;
+    min-height: 400px;
+  }
 
-.login-container h1, .login-container h2 {
-  text-shadow: 1px 1px 6px #080808;
-}
+  h1,
+  h2 {
+    text-shadow: 1px 1px 6px #080808;
+  }
 
-.login-container h1, 
-.login-container label,
-.login-container h4 {
-  color: white;
-}
+  h1,
+  label,
+  h4 {
+    color: white;
+  }
+  &--divider {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    &-block {
+      width: 40%;
+      height: 1px;
+      background: white;
+    }
+    h4 {
+      padding-left: 1em;
+      padding-right: 1em;
+      font-size: 16px;
+    }
+  }
 
-.login-container-divider {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-}
+  &--facebook {
+    &-text {
+      font-size: 11px;
+    }
+  }
+  &--twitter {
+    &-text {
+      font-size: 11px;
+    }
+  }
 
-.login-container-divider .divider {
-  width: 40%;
-  height: 1px;
-  background: white;
-}
-
-.login-container-divider h4 {
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
-#login-form {
-  width: 100%;
-}
-
-#login-form label, #login-form input {
-  display: block;
-  width: 100%;
-}
-
-#login-form label {
-  font-weight: bold;
-  font-size: 12px;
-}
-
-#login-form input {
-  margin-bottom: 1em !important;
-}
-
-.errors-list li {
-  color: #b6b6b6;
-}
-
-.spinner {
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  align-items:center;
-  justify-content: center;
-  color: blue !important;
+  #login-form {
+    width: 100%;
+    input {
+      display: block;
+      width: 100%;
+      margin-bottom: 1em !important;
+    }
+    label {
+      display: block;
+      width: 100%;
+      font-weight: bold;
+      font-size: 12px;
+    }
+  }
+  .errors-list li {
+    color: #b6b6b6;
+  }
 }
 </style>

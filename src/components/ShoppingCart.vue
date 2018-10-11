@@ -20,7 +20,8 @@
           :key="cartItem.id" :shirt="cartItem"
           :currentIndex="index + 1"
           :lastIndex="cartItems.length"
-          @remove="$emit('remove-item', $event);"
+          @update-quantity="updateQuantity"
+          @remove="removeShirt"
           />
 
           <b-row class="shopping_cart--empty-cart" v-show="!cartItems.length">
@@ -52,9 +53,33 @@ export default {
   name: "shopping-cart",
   props: ["cartItems", "showShoppingCart", "showShipping", "showPayments"],
   components: { ShoppingItem },
+  data: function() {
+    return {
+      quantity: 0,
+      shirtId: 0
+    };
+  },
   methods: {
     goToShipping: function() {
-      this.$emit('show-shipping', this.subtotal);
+      this.$emit("show-shipping", this.subtotal);
+    },
+    updateQuantity: function(quantity, shirtId) {
+      if (quantity && shirtId) {
+        this.quantity = quantity;
+        this.shirtId = shirtId;
+        this.$emit("update-quantity", this.quantity, this.shirtId);
+      }
+    },
+    removeShirt: function(shirtId) {
+      this.$emit("remove-item", shirtId);
+      this.$el.getElementsByClassName(
+        "shopping_cart--cart-badge"
+      )[0].style.transform = "scale(1.3)";
+      setTimeout(() => {
+        this.$el.getElementsByClassName(
+          "shopping_cart--cart-badge"
+        )[0].style.transform = "scale(1)";
+      }, 100);
     }
   },
   computed: {
@@ -66,17 +91,26 @@ export default {
       return subtotal.toFixed(2);
     },
     alignShoppingCart: function() {
-      if(!this.showShoppingCart && !this.showShipping && !this.showPayments) {
-        return {right: '-25%'};
-      }
-      else if(this.showShoppingCart && !this.showShipping && !this.showPayments) {
-        return {right: 0 };
-      }
-      else if(this.showShoppingCart && this.showShipping && !this.showPayments){
-        return {right: '25%' };
-      }
-      else if(this.showShoppingCart && this.showShipping && this.showPayments){
-        return {right: '50%' };
+      if (!this.showShoppingCart && !this.showShipping && !this.showPayments) {
+        return { right: "-25%" };
+      } else if (
+        this.showShoppingCart &&
+        !this.showShipping &&
+        !this.showPayments
+      ) {
+        return { right: 0 };
+      } else if (
+        this.showShoppingCart &&
+        this.showShipping &&
+        !this.showPayments
+      ) {
+        return { right: "25%" };
+      } else if (
+        this.showShoppingCart &&
+        this.showShipping &&
+        this.showPayments
+      ) {
+        return { right: "50%" };
       }
     }
   }
@@ -93,7 +127,7 @@ export default {
   padding: 20px 20px 50px;
   z-index: 30;
   background-color: #eee;
-  box-shadow: 0 0 15px 0 rgba(0,0,0,0.4);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
   transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   overflow-y: scroll;
   border-left: 1px solid rgb(156, 156, 156);
@@ -120,7 +154,7 @@ export default {
     margin: 0 0 0 10px;
     background-color: #11a2dc;
     padding: 10px 0;
-    transition: 0.2s all linear;
+    transition: 0.1s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
     &:hover {
       background-color: #0b83b3;
     }
@@ -152,4 +186,3 @@ export default {
   }
 }
 </style>
-

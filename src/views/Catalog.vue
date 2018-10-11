@@ -1,53 +1,45 @@
 <template>
-    <div id="catalog">
-      <Header
-        @show-shopping-cart="showShoppingCart = true"
-        :cartItems="cartItems"
-      />
-      <Tabs
-        v-bind:tabs="tabs"
-        :currentTab="currentTab"
-        @tab-change="currentTab=$event"
-        :totalDesigns="totalDesigns"
-      />
-      <Shirts
-        :currentSelection="currentTab"
-        @total-designs="totalDesigns = $event"
-        @add-shirt="addItemToCart"
-      />
-      <div
-        v-show="showShoppingCart"
-        class="overlay"
-        @click="resetScreen"
-      />
-      <ShoppingCart
-        :cartItems="cartItems"
-        :showShoppingCart="showShoppingCart"
-        :showShipping="showShipping"
-        :showPayments="showPayments"
-        @show-shopping-cart="toggleShoppingCart"
-        @remove-item="removeItemFromCart"
-        @show-shipping="toggleShipping"
-      />
-      <Shipping
-        :showShoppingCart="showShoppingCart"
-        :showShipping="showShipping"
-        :showPayments="showPayments"
-        @goto-shipping="toggleShipping"
-        @show-payments="togglePayments"
-      />
-      <Payments
-        :showShoppingCart="showShoppingCart"
-        :showShipping="showShipping"
-        :showPayments="showPayments"
-        :subtotal="subtotal"
-        @show-order-complete="showOrderComplete = true"
-      />
-      <OrderComplete
-        :showOrderComplete="showOrderComplete"
-        @reset-order="resetOrder"
-      />
-    </div>
+  <div id="catalog">
+    <Header @show-shopping-cart="showShoppingCart = true" :cartItemsNumber="cartItems.length"/>
+    <Tabs
+      v-bind:tabs="tabs"
+      :currentTab="currentTab"
+      @tab-change="currentTab=$event"
+      :totalDesigns="totalDesigns"
+    />
+    <Shirts
+      :currentSelection="currentTab"
+      @total-designs="totalDesigns = $event"
+      @add-shirt="addItemToCart"
+      :shirts="shirts"
+    />
+    <div v-show="showShoppingCart" class="overlay" @click="resetScreen"/>
+    <ShoppingCart
+      :cartItems="cartItems"
+      :showShoppingCart="showShoppingCart"
+      :showShipping="showShipping"
+      :showPayments="showPayments"
+      @show-shopping-cart="toggleShoppingCart"
+      @remove-item="removeItemFromCart"
+      @show-shipping="toggleShipping"
+      @update-quantity="updateShirtQuantity"
+    />
+    <Shipping
+      :showShoppingCart="showShoppingCart"
+      :showShipping="showShipping"
+      :showPayments="showPayments"
+      @goto-shipping="toggleShipping"
+      @show-payments="togglePayments"
+    />
+    <Payments
+      :showShoppingCart="showShoppingCart"
+      :showShipping="showShipping"
+      :showPayments="showPayments"
+      :subtotal="subtotal"
+      @show-order-complete="showOrderComplete = true"
+    />
+    <OrderComplete :showOrderComplete="showOrderComplete" @reset-order="resetOrder"/>
+  </div>
 </template>
 
 <script>
@@ -57,7 +49,8 @@ import Shirts from "@/components/Shirts.vue";
 import ShoppingCart from "@/components/ShoppingCart.vue";
 import Shipping from "@/components/Shipping.vue";
 import Payments from "@/components/Payment.vue";
-import OrderComplete from '@/components/OrderComplete.vue';
+import OrderComplete from "@/components/OrderComplete.vue";
+import ShirtsApiService from "@/common/shirts-api.service";
 
 export default {
   name: "catalog",
@@ -69,17 +62,33 @@ export default {
       showShipping: false,
       showPayments: false,
       showOrderComplete: false,
+      shirts: [],
       tabs: [
         { id: 1, text: "All Designs", gender: "N" },
         { id: 2, text: "Men", gender: "M" },
         { id: 3, text: "Women", gender: "W" }
       ],
       currentTab: "N",
-      totalDesigns: 8,
+      totalDesigns: 0,
       cartItems: []
     };
   },
-  components: { Header, Tabs, Shirts, ShoppingCart, Shipping, Payments, OrderComplete },
+  components: {
+    Header,
+    Tabs,
+    Shirts,
+    ShoppingCart,
+    Shipping,
+    Payments,
+    OrderComplete
+  },
+  created: function() {
+    ShirtsApiService.getShirts()
+      .then(result => {
+        this.shirts = result;
+      })
+      .catch(err => console.log(err));
+  },
   methods: {
     addItemToCart: function(newShirt) {
       let shirtIndexIfExist = this.cartItems.findIndex(
@@ -102,6 +111,16 @@ export default {
       );
       this.cartItems.splice(shirtIndex, 1);
     },
+    updateShirtQuantity: function(quantity, shirtId) {
+      let updatedShirt = this.cartItems.find(
+        cartItem => cartItem.id === shirtId
+      );
+      this.$set(updatedShirt, "quantity", quantity);
+      let shirtIndex = this.cartItems.findIndex(
+        cartItem => cartItem.id === shirtId
+      );
+      this.$set(this.cartItems, shirtIndex, updatedShirt);
+    },
     resetScreen: function() {
       this.showShoppingCart = false;
       this.showShipping = false;
@@ -114,8 +133,6 @@ export default {
       this.showPayments = false;
     },
     toggleShipping: function(subtotal) {
-      console.log(subtotal);
-      
       this.showShoppingCart = true;
       this.showShipping = true;
       this.showPayments = false;
@@ -139,6 +156,7 @@ export default {
 
 <style lang="scss">
 #catalog {
+  padding-bottom: 20px;
   background-color: inherit;
   .overlay {
     position: absolute;

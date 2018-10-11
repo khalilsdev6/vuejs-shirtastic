@@ -58,6 +58,9 @@ export default {
     color: #10a2dc;
   }
   .add-cart {
+    &:active {
+      transform: scale(0.9);
+    }
     cursor: pointer;
   }
 }

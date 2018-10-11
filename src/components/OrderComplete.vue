@@ -20,7 +20,6 @@ export default {
   },
   computed: {
     alignOrderComplete: function() {
-        console.log(this.showOrderComplete);
       if (!this.showOrderComplete) {
         return { right: "-75%" };
       }

@@ -35,7 +35,7 @@
                         type="text"
                         :value="shirt.quantity"
                         class="shopping_item--quantity"
-                        @change="$emit('update-quantity', $event)"
+                        @input="$emit('update-quantity', $event, shirt.id)"
                         />
                         <span class="shopping_item--price"> @ {{ shirt.price }}</span>
                     </b-col>

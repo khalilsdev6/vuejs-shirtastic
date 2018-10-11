@@ -1,51 +1,43 @@
 <template>
-<b-col 
-  v-bind:class="['signup-container', step === 2 ? 'expanded': '']"
-  v-bind:sm="step === 2 ? '8' : '4'"
+  <b-col
+    v-bind:class="['signup-container', step === 2 ? 'expanded': '']"
+    v-bind:sm="step === 2 ? '8' : '4'"
   >
-  <b-container v-if="step === 1">
-    <div>
-      <h1>Sign up</h1>
-      <SignupSteps v-bind:step="Number(1)"/>
-      <div id='signup-form'>
-        <label>Email Address</label>
-        <input 
-          v-model="email" 
-          type="text" 
-          placeholder="Your email address"
-          @keyup.enter="advance">
-        <label>Password</label>
-        <input 
-          v-model="password" 
-          type="password"
-          @keyup.enter="advance">
-
-        <label>Confirm Password</label>
-        <input 
-          v-model="confirmPassword" 
-          type="password"
-          @keyup.enter="advance">
+    <b-container v-if="step === 1">
+      <div>
+        <h1 class="text-center">Sign up</h1>
+        <SignupSteps v-bind:step="Number(1)"/>
+        <div id="signup-form">
+          <label>Email Address</label>
+          <input
+            v-model="email"
+            type="text"
+            placeholder="Your email address"
+            @keyup.enter="advance"
+          >
+          <label>Password</label>
+          <input v-model="password" type="password" @keyup.enter="advance">
+          <label>Confirm Password</label>
+          <input v-model="confirmPassword" type="password" @keyup.enter="advance">
+        </div>
+        <p>
+          By clicking the Sign Up button below, you agree to our
+          <u>Terms of Service</u>and
+          <u>Privacy Policy</u>.
+        </p>
+        <SignupErrors v-bind:errors="errors"/>
+        <div class="text-center">
+          <b-button @click="advance">Sign up</b-button>
+        </div>
       </div>
-      <p>By clicking the Sign Up button below, you agree to our
-        <u>Terms of Service</u> and <u>Privacy Policy</u>.
-      </p>
-      <SignupErrors v-bind:errors="errors"/>
-      <button 
-        @click="advance" 
-        class="btn btn-primary">
-          Sign up
-      </button>
-    </div>
-  </b-container>
-  <SignupShippingForm 
-    v-else
-  />
-</b-col>
+    </b-container>
+    <SignupShippingForm v-else/>
+  </b-col>
 </template>
 <script>
-import SignupSteps from './SignupSteps'
-import SignupErrors from './SignupErrors'
-import SignupShippingForm from './SignupShippingForm'
+import SignupSteps from "./SignupSteps";
+import SignupErrors from "./SignupErrors";
+import SignupShippingForm from "./SignupShippingForm";
 
 export default {
   components: {
@@ -53,7 +45,7 @@ export default {
     SignupErrors,
     SignupShippingForm
   },
-  data: function () {
+  data: function() {
     return {
       email: "",
       password: "",
@@ -63,8 +55,7 @@ export default {
       isSubmitting: false
     };
   },
-  created: function () {
-    
+  created: function() {
     /**
      * validateEmail
      * @desc This function returns a boolean result
@@ -76,7 +67,7 @@ export default {
       const email = this.email;
       const re = /\S+@\S+\.\S+/;
       return re.test(email);
-    }
+    };
 
     /**
      * validatePasswords
@@ -88,48 +79,48 @@ export default {
     this.validatePasswords = () => {
       const { password, confirmPassword } = this;
       if (password.length < 8) {
-        return "Password must be at least 8 characters"
+        return "Password must be at least 8 characters";
       }
       if (password !== confirmPassword) {
-        return "Passwords don't match"
+        return "Passwords don't match";
       }
       return true;
-    }
+    };
 
     /**
      * checkPageOne
      * @desc Determines if there are any errors on page one.
      * If so, it will add the errors to this' errors array
      * and return false.
-     * @return {Boolean} was page one ok 
+     * @return {Boolean} was page one ok
      */
 
     this.checkPageOne = () => {
       this.errors = [];
       if (!this.validateEmail()) {
-        this.errors.push('Please enter a valid email');
+        this.errors.push("Please enter a valid email");
       }
 
       const passwordValidationResult = this.validatePasswords();
       if (typeof passwordValidationResult === "string") {
-        this.errors.push(passwordValidationResult)
+        this.errors.push(passwordValidationResult);
       }
 
       if (this.errors.length === 0) return true;
       return false;
-    }
+    };
   },
   methods: {
-    advance: function () {
-      if(this.checkPageOne()) {
-        this.$emit('signing-up');
+    advance: function() {
+      if (this.checkPageOne()) {
+        this.$emit("signing-up");
         this.step = 2;
       }
     }
   }
-}
+};
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .signup-container {
   background: url("../assets/Fractal.png");
   background-position: center;

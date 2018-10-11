@@ -10,93 +10,91 @@
         <b-row>
             <b-col>
                 <b-form @submit.prevent="onSubmit">
-                    <b-form-group id="name"
-                                    label="Name"
-                                    label-for="name">
-                        <b-form-input id="name"
-                                    type="text"
-                                    v-model.trim="form.name"
-                                    required
-                                    :value="form.name"
-                                    placeholder="Johnny Appleseed">
-                        </b-form-input>
+                    <b-form-group id="name" label="Name" label-for="name">
+                        <b-form-input
+                            id="name"
+                            type="text"
+                            v-model.trim="form.name"
+                            required
+                            :value="form.name"
+                            placeholder="Johnny Appleseed"
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="email"
-                                    label="Email"
-                                    label-for="email">
-                        <b-form-input id="email"
-                                    type="email"
-                                    v-model.trim="form.email"
-                                    required
-                                    :value="form.email"
-                                    placeholder="johnny5@nova-industries.com">
-                        </b-form-input>
+                    <b-form-group id="email" label="Email" label-for="email">
+                        <b-form-input
+                            id="email"
+                            type="email"
+                            v-model.trim="form.email"
+                            required
+                            :value="form.email"
+                            placeholder="johnny5@nova-industries.com"
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="phoneNumber"
-                                    label="Phone Numbre"
-                                    label-for="phoneNumber">
-                        <b-form-input id="phoneNumber"
-                                    type="text"
-                                    v-model.number.trim="form.phoneNumber"
-                                    required
-                                    :value="form.phoneNumber"
-                                    placeholder="555-123-1234">
-                        </b-form-input>
+                    <b-form-group id="phoneNumber" label="Phone Numbre" label-for="phoneNumber">
+                        <b-form-input
+                            id="phoneNumber"
+                            type="text"
+                            v-model.number.trim="form.phoneNumber"
+                            required
+                            :value="form.phoneNumber"
+                            placeholder="555-123-1234"
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="address1"
-                                    label="Address 1"
-                                    label-for="address1">
-                        <b-form-input id="address1"
-                                    type="text"
-                                    v-model.trim="form.address1"
-                                    required
-                                    :value="form.address1"
-                                    placeholder="123 Anywhere Ave.">
-                        </b-form-input>
+                    <b-form-group id="address1" label="Address 1" label-for="address1">
+                        <b-form-input
+                            id="address1"
+                            type="text"
+                            v-model.trim="form.address1"
+                            required
+                            :value="form.address1"
+                            placeholder="123 Anywhere Ave."
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="address2"
-                                    label="Address 2"
-                                    label-for="address2">
-                        <b-form-input id="address2"
-                                    type="text"
-                                    v-model.trim="form.address2"
-                                    placeholder="Suite 101">
-                        </b-form-input>
+                    <b-form-group id="address2" label="Address 2" label-for="address2">
+                        <b-form-input
+                            id="address2"
+                            type="text"
+                            v-model.trim="form.address2"
+                            placeholder="Suite 101"
+                        ></b-form-input>
                     </b-form-group>
-                    <b-form-group id="city"
-                                    label="City"
-                                    label-for="city">
-                        <b-form-input id="city"
-                                    type="text"
-                                    v-model.trim="form.city"
-                                    required
-                                    :value="form.city"
-                                    placeholder="Toronto">
-                        </b-form-input>
+                    <b-form-group id="city" label="City" label-for="city">
+                        <b-form-input
+                            id="city"
+                            type="text"
+                            v-model.trim="form.city"
+                            required
+                            :value="form.city"
+                            placeholder="Toronto"
+                        ></b-form-input>
                     </b-form-group>
-                    
-                    <b-form-group id="country"
-                                    label="Country"
-                                    label-for="country">
-                        <b-form-select id="country"
-                                    :options="country"
-                                    required
-                                    :value="form.country"
-                                    v-model="form.country">
+                    <b-form-group id="country" label="Country" label-for="country">
+                        <b-form-select
+                            id="country"
+                            text-field="name"
+                            value-field="id"
+                            required
+                            v-model="form.country"
+                            @change="$event === '' ? form.province = '' : ''"
+                        >
+                            <option value="">Select Country</option>
+                            <option
+                                :value="country.id"
+                                :key="country.id"
+                                v-for="country of countries"
+                            >{{ country.name }}</option>
                         </b-form-select>
                     </b-form-group>
                     <b-form-row>
                         <b-col>
-                            <b-form-group
-                                id="province"
-                                label="Province"
-                                label-for="province">
-                                <b-form-select
-                                    id="province"
-                                    :options="province"
-                                    required
-                                    :value="form.province"
-                                    v-model="form.province">
+                            <b-form-group id="province" label="Province" label-for="province">
+                                <b-form-select id="province" required v-model="form.province">
+                                    <option value="">Select Province</option>
+                                    <option
+                                        :value="province"
+                                        :key="province"
+                                        v-for="province of provinces[form.country]"
+                                    >{{ province }}</option>
                                 </b-form-select>
                             </b-form-group>
                         </b-col>
@@ -104,34 +102,34 @@
                             <b-form-group
                                 id="postalCode"
                                 label="Postal Code"
-                                label-for="postalCode">
+                                label-for="postalCode"
+                            >
                                 <b-form-input
                                     id="postalCode"
                                     required
                                     :value="form.postalCode"
                                     v-model.trim="form.postalCode"
-                                    placeholder="L5N 2N5">
-                                </b-form-input>
+                                    placeholder="L5N 2N5"
+                                ></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-form-row>
-
                     <b-form-row>
                         <b-col class="text-right py-3">
-                            <b-button
-                                class="shipping--btn"
-                                @click="$emit('show-payments')">
-                                    Go to Payment <span>&#8594;</span>
+                            <b-button class="shipping--btn" @click="$emit('show-payments')">
+                                Go to Payment
+                                <span>&#8594;</span>
                             </b-button>
                         </b-col>
                     </b-form-row>
-                    
                 </b-form>
             </b-col>
         </b-row>
     </div>
 </template>
 <script>
+import country from "@/models/countries";
+import regions from "@/models/regions";
 export default {
   name: "shipping",
   props: ["showShoppingCart", "showShipping", "showPayments"],
@@ -144,33 +142,17 @@ export default {
         address1: "Hey there",
         address2: "suite 201",
         city: "Toronto",
-        country: "usa",
-        province: "india",
+        country: "",
+        province: "",
         postalCode: "m9v 3t2"
       },
-      country: [
-        { text: "Select Country", value: "" },
-        { text: "USA", value: "usa" },
-        { text: "Canada", value: "canada" },
-        { text: "India", value: "india" },
-        { text: "China", value: "china" },
-        { text: "Russia", value: "russia" },
-        { text: "Nigeria", value: "nigeria" }
-      ],
-      province: [
-        { text: "Select Province", value: "" },
-        { text: "USA", value: "usa" },
-        { text: "Canada", value: "canada" },
-        { text: "India", value: "india" },
-        { text: "China", value: "china" },
-        { text: "Russia", value: "russia" },
-        { text: "Nigeria", value: "nigeria" }
-      ]
+      countries: country,
+      provinces: regions
     };
   },
   methods: {
     onSubmit: function($event) {
-        console.log('Hey there');
+      console.log("Hey there");
     }
   },
   computed: {

@@ -1,25 +1,20 @@
 <template>
-    <div class="shirts-container">
-        <b-row>
-            <Shirt
-            v-for="shirt of shirts"
-            v-bind:key="shirt.id"
-            v-bind:shirt="shirt"
-            @add-shirt="$emit('add-shirt', $event)"
-            />
-        </b-row>
-    </div>
+  <div class="shirts-container">
+    <b-row v-if="!!shirts.length">
+      <Shirt
+        v-for="shirt of shirts"
+        v-bind:key="shirt.id"
+        v-bind:shirt="shirt"
+        @add-shirt="$emit('add-shirt', $event)"
+      />
+    </b-row>
+  </div>
 </template>
 <script>
-import ShirtsData from "../../mock-server/shirts.json";
 import Shirt from "@/components/Shirt.vue";
+
 export default {
-  props: ["currentSelection"],
-  data: function() {
-    return {
-      shirts: ShirtsData.shirts
-    };
-  },
+  props: ["currentSelection", "shirts"],
   watch: {
     currentSelection: function(newGender) {
       if (newGender === "N") {

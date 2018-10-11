@@ -2,12 +2,12 @@
 const countries = [
   {
     id: 'canada',
-    name: 'Canada'
+    name: 'Canada',
   },
   {
     id: 'usa',
-    name: 'USA'
-  }
-]
+    name: 'USA',
+  },
+];
 
-export default countries
+export default countries;

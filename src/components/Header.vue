@@ -7,7 +7,7 @@
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto" @click="$emit('show-shopping-cart')">
                 <b-img class="cart-image" :src="require('../assets/icon-basket.svg')" fluid alt="cart"/>
-                <b-badge href="#" variant="primary" pill class="cart-badge">{{ cartItems.length }}</b-badge>
+                <b-badge href="#" variant="primary" pill class="cart-badge">{{ cartItemsNumber }}</b-badge>
             </b-navbar-nav>
         </b-navbar>
     </div>
@@ -16,7 +16,13 @@
 <script>
 export default {
   name: "app-header",
-  props: ["cartItems"]
+  props: ["cartItemsNumber"],
+  updated() {
+    this.$el.getElementsByClassName('cart-badge')[0].style.transform = 'scale(1.3)';
+    setTimeout(() => {
+      this.$el.getElementsByClassName('cart-badge')[0].style.transform = 'scale(1)';
+    }, 100);
+  }
 };
 </script>
 
@@ -43,7 +49,7 @@ export default {
   margin: 0 10px;
   background-color: #11a2dc;
   padding: 10px 0;
-  transition: 0.2s all linear;
+  transition: 0.1s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
   &:hover {
     background-color: #0b83b3;
   }
