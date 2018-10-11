@@ -13,7 +13,7 @@
       @add-shirt="addItemToCart"
       :shirts="shirts"
     />
-    <div v-show="showShoppingCart" class="overlay" @click="resetScreen"/>
+    <div v-show="showShoppingCart" class="overlay" @click="resetScreen"></div>
     <ShoppingCart
       :cartItems="cartItems"
       :showShoppingCart="showShoppingCart"

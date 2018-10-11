@@ -116,7 +116,7 @@
                     </b-form-row>
                     <b-form-row>
                         <b-col class="text-right py-3">
-                            <b-button class="shipping--btn" @click="$emit('show-payments')">
+                            <b-button type="submit" class="shipping--btn">
                                 Go to Payment
                                 <span>&#8594;</span>
                             </b-button>
@@ -136,15 +136,15 @@ export default {
   data: function() {
     return {
       form: {
-        name: "Parth Chokshi",
-        email: "parth@gmail.com",
-        phoneNumber: "1231231233",
-        address1: "Hey there",
-        address2: "suite 201",
-        city: "Toronto",
+        name: "",
+        email: "",
+        phoneNumber: "",
+        address1: "",
+        address2: "",
+        city: "",
         country: "",
         province: "",
-        postalCode: "m9v 3t2"
+        postalCode: ""
       },
       countries: country,
       provinces: regions
@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     onSubmit: function($event) {
-      console.log("Hey there");
+      this.$emit("show-payments");
     }
   },
   computed: {

@@ -1,8 +1,8 @@
 <template>
   <div class="shirts-container">
-    <b-row v-if="!!shirts.length">
+    <b-row v-if="!!shirtsData.length">
       <Shirt
-        v-for="shirt of shirts"
+        v-for="shirt of shirtsData"
         v-bind:key="shirt.id"
         v-bind:shirt="shirt"
         @add-shirt="$emit('add-shirt', $event)"
@@ -15,16 +15,27 @@ import Shirt from "@/components/Shirt.vue";
 
 export default {
   props: ["currentSelection", "shirts"],
+  data: function() {
+    return {
+      shirtsData: this.shirts
+    };
+  },
+  updated() {
+    this.$emit("total-designs", this.shirtsData.length);
+  },
   watch: {
+    shirts: function() {
+      this.shirtsData = this.shirts;
+    },
     currentSelection: function(newGender) {
       if (newGender === "N") {
-        this.shirts = ShirtsData.shirts;
+        this.shirtsData = this.shirts;
       } else {
-        this.shirts = ShirtsData.shirts.filter(
+        this.shirtsData = this.shirts.filter(
           shirt => shirt.gender === newGender
         );
       }
-      this.$emit("total-designs", this.shirts.length);
+      this.$emit("total-designs", this.shirtsData.length);
     }
   },
   components: { Shirt }
@@ -35,4 +46,3 @@ export default {
   padding: 0 100px;
 }
 </style>
-
