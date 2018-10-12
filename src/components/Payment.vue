@@ -77,7 +77,9 @@
                         <b-col class="text-right py-3">
                             <b-button class="payments--btn" @click="$emit('show-order-complete')">
                                 Checkout
-                                <span class="payments--right-arrow">&#10003;</span>
+                                <span class="payments--right-arrow">
+                                    <b-img :src="require('../assets/icon-tick.svg')" alt="Right tick" fluid/>
+                                </span>
                             </b-button>
                         </b-col>
                     </b-row>

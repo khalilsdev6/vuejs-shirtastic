@@ -20,13 +20,10 @@ export default {
       shirtsData: this.shirts
     };
   },
-  updated() {
-    this.$emit("total-designs", this.shirtsData.length);
+  mounted: function() {
+    this.$emit('total-designs', this.shirtsData.length);
   },
   watch: {
-    shirts: function() {
-      this.shirtsData = this.shirts;
-    },
     currentSelection: function(newGender) {
       if (newGender === "N") {
         this.shirtsData = this.shirts;

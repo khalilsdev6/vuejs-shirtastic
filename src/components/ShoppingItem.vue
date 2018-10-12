@@ -3,41 +3,56 @@
         <hr>
         <b-row>
             <b-col sm="12" md="auto" lg="auto" xl="auto">
-                <b-img class="shopping_item--thumbnail" :src="require('../assets/'+shirt.shirtDesign)" alt="" />
+                <b-img
+                    class="shopping_item--thumbnail"
+                    :src="require('../assets/'+shirt.shirtDesign)"
+                    alt=""
+                />
             </b-col>
             <b-col>
-                <b-row no-gutters="">
+                <b-row no-gutters>
                     <b-col>
-                        <h4 class="shopping_item--name">
-                            {{ shirt.name }}
-                        </h4>
+                        <h4 class="shopping_item--name">{{ shirt.name }}</h4>
                         <p class="shopping_item--description">{{ shirt.description }}</p>
                     </b-col>
                     <b-col cols="auto">
-                        <b-button @click="$emit('remove', shirt.id)" class="shopping_item--delete">&#x2715;</b-button>
+                        <div class="shopping_item--delete">
+                            <b-img
+                                @click="$emit('remove', shirt.id)"
+                                :src="require('../assets/icon-times.svg')"
+                            />
+                        </div>
                     </b-col>
                 </b-row>
                 <b-row no-gutters>
                     <b-col>
-                        <b-form-group id="shirt-size"
-                                        label-for="shirt-size">
-                            <b-form-select class="shopping_item--size" id="shirt-size"
-                                        :options="shirtSize"
-                                        required
-                                        v-model="form.shirtSize">
+                        <b-form-group id="shirt-size" label-for="shirt-size">
+                            <b-form-select
+                                name="sizeShirt"
+                                class="shopping_item--size"
+                                id="shirt-size"
+                                required
+                                v-model="sizeShirt"
+                            >
+                                <option value="">Select Size</option>
+                                <option
+                                    :value="shirtSize.value"
+                                    :key="shirtSize.value"
+                                    v-for="shirtSize of shirtSizes"
+                                >{{ shirtSize.text }}</option>
                             </b-form-select>
                         </b-form-group>
                     </b-col>
                 </b-row>
-                <b-row no-gutters="">
+                <b-row no-gutters>
                     <b-col>
                         <b-input
-                        type="text"
-                        :value="shirt.quantity"
-                        class="shopping_item--quantity"
-                        @input="$emit('update-quantity', $event, shirt.id)"
+                            type="text"
+                            v-model.number.trim="shirt.quantity"
+                            class="shopping_item--quantity"
+                            @input="$emit('update-quantity', parseInt($event, 10), shirt.id)"
                         />
-                        <span class="shopping_item--price"> @ {{ shirt.price }}</span>
+                        <span class="shopping_item--price">@ {{ shirt.price }}</span>
                     </b-col>
                 </b-row>
             </b-col>
@@ -52,17 +67,21 @@ export default {
   name: "shopping-item",
   props: ["shirt", "lastIndex", "currentIndex"],
   data: function() {
-      return {
-          form: {
-              shirtSize: ''
-          },
-          shirtSize: [
-              {text: 'Select Size', value: ''},
-              {text: 'Small', value: 'S'},
-              {text: 'Medium', value: 'M'},
-              {text: 'Large', value: 'L'},
-          ]
-      }
+    return {
+      shirtSizes: [
+        { text: "Extra Large", value: "XL" },
+        { text: "Large", value: "L" },
+        { text: "Medium", value: "M" },
+        { text: "Small", value: "S" },
+        { text: "Extra Small", value: "XS" }
+      ],
+      sizeShirt: this.shirt.size,
+    };
+  },
+  watch: {
+    shirt: function() {
+      this.sizeShirt = this.shirt.size;
+    }
   }
 };
 </script>
@@ -83,22 +102,21 @@ export default {
     background: transparent;
     border-radius: 50%;
     border: none;
-    width: 20px;
-    height: 20px;
+    width: 23px;
+    height: 23px;
     background-color: #11a2dc;
-    padding: 0;
-    color: #FFF;
+    color: #fff;
     cursor: pointer;
     opacity: 1;
     min-width: auto;
     box-shadow: none;
-    padding: 0 !important;
+    text-align: center;
   }
   &--size {
-      width: 150px;
-      margin: 10px 0 0;
-      font-weight: 600;
-      color: #11a2dc;
+    width: 150px;
+    margin: 10px 0 0;
+    font-weight: 600;
+    color: #11a2dc;
   }
   &--quantity {
     display: inline-block;

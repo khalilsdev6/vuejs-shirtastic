@@ -8,11 +8,22 @@
       :totalDesigns="totalDesigns"
     />
     <Shirts
+      v-if="!isLoading && shirts.length > 0"
       :currentSelection="currentTab"
       @total-designs="totalDesigns = $event"
       @add-shirt="addItemToCart"
       :shirts="shirts"
     />
+    <div class="px-100 my-4" v-else-if="!isLoading && shirts.length <= 0">
+      <b-row>
+        <b-col>
+          <h4>Unable to load shirts. Please check the shirt service.</h4>
+        </b-col>
+      </b-row>
+    </div>
+    <div class="flex-center" v-else>
+      <double-bounce></double-bounce>
+    </div>
     <div v-show="showShoppingCart" class="overlay" @click="resetScreen"></div>
     <ShoppingCart
       :cartItems="cartItems"
@@ -51,6 +62,7 @@ import Shipping from "@/components/Shipping.vue";
 import Payments from "@/components/Payment.vue";
 import OrderComplete from "@/components/OrderComplete.vue";
 import ShirtsApiService from "@/common/shirts-api.service";
+import { DoubleBounce } from "vue-loading-spinner";
 
 export default {
   name: "catalog",
@@ -63,6 +75,7 @@ export default {
       showPayments: false,
       showOrderComplete: false,
       shirts: [],
+      isLoading: true,
       tabs: [
         { id: 1, text: "All Designs", gender: "N" },
         { id: 2, text: "Men", gender: "M" },
@@ -80,28 +93,39 @@ export default {
     ShoppingCart,
     Shipping,
     Payments,
-    OrderComplete
+    OrderComplete,
+    DoubleBounce
   },
   created: function() {
-    ShirtsApiService.getShirts()
-      .then(result => {
-        this.shirts = result;
-      })
-      .catch(err => console.log(err));
+    setTimeout(() => {
+      ShirtsApiService.getShirts()
+        .then(result => {
+          this.isLoading = false;
+          this.shirts = result;
+        })
+        .catch(err => {
+          this.isLoading = false;
+          console.log(err);
+        });
+    }, 2000);
   },
   methods: {
     addItemToCart: function(newShirt) {
       let shirtIndexIfExist = this.cartItems.findIndex(
-        cartItem => cartItem.id === newShirt.id
+        cartItem => cartItem.size === newShirt.size
       );
+      let cartItem = this.cartItems.find(
+        cartItem => cartItem.size === newShirt.size
+      );
+      console.log(cartItem);
+      console.log(shirtIndexIfExist);
       // increase quantity if shirt exist
-      if (shirtIndexIfExist > -1) {
-        this.$set(newShirt, "quantity", newShirt.quantity + 1);
-        this.$set(this.cartItems, shirtIndexIfExist, newShirt);
+      if (shirtIndexIfExist > -1 && cartItem) {
+        cartItem.quantity+=1;
       }
       // add new shirt if doesn't exist
       else {
-        this.$set(newShirt, "quantity", 1);
+        newShirt.quantity+=1;
         this.cartItems.push(newShirt);
       }
     },
@@ -167,8 +191,19 @@ export default {
     right: 0;
     background-color: rgba(0, 0, 0, 0.4);
   }
+  .flex-center {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+  }
   .shopping-cart {
     position: relative;
+  }
+  .px-100 {
+    padding: 0 100px;
   }
 }
 </style>

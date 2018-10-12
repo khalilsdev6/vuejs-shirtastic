@@ -14,12 +14,12 @@ const ShirtsApiService = {
   },
 
   getShirts() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       Vue.axios
         .get('shirts')
         .then(result => resolve(result.data))
         .catch((error) => {
-          throw new Error(`[Create] ShirtsApiService ${error}`);
+          reject(`[Create] ShirtsApiService ${error}`);
         });
     });
   },

@@ -1,16 +1,20 @@
 <template>
-    <div>
-        <b-navbar class="navbar-container" toggleable="md" type="light" variant="light">
-            <b-navbar-brand href="#">
-                <b-img class="navbar-image" :src="require('../assets/navlogo.png')" fluid alt="Logo" />  
-            </b-navbar-brand>
-            <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto" @click="$emit('show-shopping-cart')">
-                <b-img class="cart-image" :src="require('../assets/icon-basket.svg')" fluid alt="cart"/>
-                <b-badge href="#" variant="primary" pill class="cart-badge">{{ cartItemsNumber }}</b-badge>
-            </b-navbar-nav>
-        </b-navbar>
-    </div>
+  <div>
+    <b-navbar class="navbar-container" toggleable="md" type="light" variant="light">
+      <b-navbar-brand href="#">
+        <b-img class="navbar-image" :src="require('../assets/navlogo.png')" fluid alt="Logo"/>
+      </b-navbar-brand>
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto" @click="$emit('show-shopping-cart')">
+        <b-nav-item>
+          <b-img class="cart-image" :src="require('../assets/icon-basket.svg')" fluid alt="cart"/>
+        </b-nav-item>
+        <b-nav-item>
+          <b-badge href="#" variant="primary" pill class="cart-badge">{{ cartItemsNumber }}</b-badge>
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
@@ -18,9 +22,11 @@ export default {
   name: "app-header",
   props: ["cartItemsNumber"],
   updated() {
-    this.$el.getElementsByClassName('cart-badge')[0].style.transform = 'scale(1.3)';
+    this.$el.getElementsByClassName("cart-badge")[0].style.transform =
+      "scale(1.3)";
     setTimeout(() => {
-      this.$el.getElementsByClassName('cart-badge')[0].style.transform = 'scale(1)';
+      this.$el.getElementsByClassName("cart-badge")[0].style.transform =
+        "scale(1)";
     }, 100);
   }
 };

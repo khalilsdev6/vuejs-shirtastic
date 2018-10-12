@@ -1,51 +1,61 @@
 <template>
-    <div class="shopping_cart" v-bind:style="alignShoppingCart">
-        <div class="shopping_cart--overlay" v-show="showShipping" @click="$emit('show-shopping-cart')"></div>
-
-        <b-form @submit.prevent="goToShipping">
-
-          <b-row align-h="end">
-              <b-col sm="12" md="8" lg="8" xl="8">
-                  <h3 class="shopping_cart--header">Shopping Cart</h3>
-              </b-col>
-              <b-col align-self="end">
-                  <b-img class="shopping_cart--cart-image" :src="require('../assets/icon-basket.svg')" fluid alt="cart"/>
-                  <b-badge href="#" variant="primary" pill class="shopping_cart--cart-badge">{{ cartItems.length }}</b-badge>
-              </b-col>
-          </b-row>
-
-          <ShoppingItem
-          v-show="!!cartItems.length"
-          v-for="(cartItem, index) of cartItems"
-          :key="cartItem.id" :shirt="cartItem"
-          :currentIndex="index + 1"
-          :lastIndex="cartItems.length"
-          @update-quantity="updateQuantity"
-          @remove="removeShirt"
+  <div class="shopping_cart" v-bind:style="alignShoppingCart">
+    <div class="shopping_cart--overlay" v-show="showShipping" @click="$emit('show-shopping-cart')"></div>
+    <b-form @submit.prevent="goToShipping">
+      <b-row align-h="end">
+        <b-col sm="12" md="8" lg="8" xl="8">
+          <h3 class="shopping_cart--header">Shopping Cart</h3>
+        </b-col>
+        <b-col align-self="end">
+          <b-img
+            class="shopping_cart--cart-image"
+            :src="require('../assets/icon-basket.svg')"
+            fluid
+            alt="cart"
           />
-
-          <b-row class="shopping_cart--empty-cart" v-show="!cartItems.length">
-            <b-col>
-              <h5>No items added to cart</h5>
-            </b-col>
-          </b-row>
-
-          <div v-show="cartItems.length">
-            <b-row class="shopping_cart--subtotal py-4">
-              <b-col>
-                <h4 class="shopping_cart--subtotal-header">Subtotal:</h4><h3 class="shopping_cart--subtotal-header">&nbsp;${{ subtotal }}</h3>
-              </b-col>
-            </b-row>
-            <b-row class="pb-5">
-              <b-col class="text-right">
-                <b-button class="shopping_cart--btn" type="submit">Go to Shipping <span class="shopping_cart--right-arrow">&#8594;</span></b-button>
-              </b-col>
-            </b-row>
-          </div>
-
-        </b-form>
-
-    </div>
+          <b-badge
+            href="#"
+            variant="primary"
+            pill
+            class="shopping_cart--cart-badge"
+          >{{ cartItems.length }}</b-badge>
+        </b-col>
+      </b-row>
+      <ShoppingItem
+        v-show="!!cartItems.length"
+        v-for="(cartItem, index) of cartItems"
+        :key="cartItem.id + cartItem.size"
+        :shirt="cartItem"
+        :currentIndex="index + 1"
+        :lastIndex="cartItems.length"
+        @update-quantity="updateQuantity"
+        @remove="removeShirt"
+      />
+      <b-row class="shopping_cart--empty-cart" v-show="!cartItems.length">
+        <b-col>
+          <h5>No items added to cart</h5>
+        </b-col>
+      </b-row>
+      <div v-show="cartItems.length">
+        <b-row class="shopping_cart--subtotal py-4">
+          <b-col>
+            <h4 class="shopping_cart--subtotal-header">Subtotal:</h4>
+            <h3 class="shopping_cart--subtotal-header">&nbsp;${{ subtotal }}</h3>
+          </b-col>
+        </b-row>
+        <b-row class="pb-5">
+          <b-col class="text-right">
+            <b-button class="shopping_cart--btn" type="submit">
+              Go to Shipping
+              <span class="shopping_cart--right-arrow">
+                <b-img :src="require('../assets/icon-arrow-right.svg')" alt="right-arrow" fluid/>
+              </span>
+            </b-button>
+          </b-col>
+        </b-row>
+      </div>
+    </b-form>
+  </div>
 </template>
 <script>
 import ShoppingItem from "@/components/ShoppingItem.vue";
@@ -141,7 +151,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.25);
   }
   &--header {
-    color: #274686;
+    color: #545871;
   }
   &--cart-image {
     width: 30px;
@@ -152,7 +162,7 @@ export default {
     width: 30px;
     height: 30px;
     margin: 0 0 0 10px;
-    background-color: #11a2dc;
+    background-color: #10a2dc;
     padding: 10px 0;
     transition: 0.1s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
     &:hover {
@@ -172,11 +182,11 @@ export default {
   &--btn {
     font-size: 12px;
     position: relative;
-    padding-right: 20px !important;
+    padding-right: 30px !important;
   }
   &--right-arrow {
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 0;
     font-size: 20px;
   }

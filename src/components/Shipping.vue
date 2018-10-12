@@ -118,7 +118,13 @@
                         <b-col class="text-right py-3">
                             <b-button type="submit" class="shipping--btn">
                                 Go to Payment
-                                <span>&#8594;</span>
+                                <span class="shipping--right-arrow">
+                                    <b-img
+                                        :src="require('../assets/icon-arrow-right.svg')"
+                                        alt="right arrow"
+                                        fluid
+                                    />
+                                </span>
                             </b-button>
                         </b-col>
                     </b-form-row>
@@ -205,11 +211,11 @@ export default {
   &--btn {
     font-size: 12px;
     position: relative;
-    padding-right: 20px !important;
+    padding-right: 30px !important;
   }
   &--right-arrow {
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 0;
     font-size: 20px;
   }
