@@ -111,37 +111,38 @@ export default {
   },
   methods: {
     addItemToCart: function(newShirt) {
+      console.log(newShirt);
       let shirtIndexIfExist = this.cartItems.findIndex(
-        cartItem => cartItem.size === newShirt.size
+        cartItem => cartItem.size === newShirt.size && cartItem.id === newShirt.id
       );
-      let cartItem = this.cartItems.find(
-        cartItem => cartItem.size === newShirt.size
-      );
-      console.log(cartItem);
       console.log(shirtIndexIfExist);
+      let cartItem = this.cartItems.find(
+        cartItem => cartItem.size === newShirt.size && cartItem.id === newShirt.id
+      );
       // increase quantity if shirt exist
-      if (shirtIndexIfExist > -1 && cartItem) {
-        cartItem.quantity+=1;
+      if (shirtIndexIfExist > -1) {
+        console.log(cartItem.size, cartItem.name, cartItem.quantity);
+        cartItem.quantity += 1;
       }
       // add new shirt if doesn't exist
       else {
-        newShirt.quantity+=1;
+        newShirt.quantity = 1;
         this.cartItems.push(newShirt);
       }
     },
-    removeItemFromCart: function(shirtId) {
+    removeItemFromCart: function(shirt) {
       let shirtIndex = this.cartItems.findIndex(
-        cartItem => cartItem.id === shirtId
+        cartItem => cartItem.id === shirt.id && cartItem.size === shirt.size
       );
       this.cartItems.splice(shirtIndex, 1);
     },
-    updateShirtQuantity: function(quantity, shirtId) {
+    updateShirtQuantity: function(quantity, shirt) {
       let updatedShirt = this.cartItems.find(
-        cartItem => cartItem.id === shirtId
+        cartItem => cartItem.id === shirt.id && cartItem.size === shirt.size
       );
       this.$set(updatedShirt, "quantity", quantity);
       let shirtIndex = this.cartItems.findIndex(
-        cartItem => cartItem.id === shirtId
+        cartItem => cartItem.id === shirt.id && cartItem.size === shirt.size
       );
       this.$set(this.cartItems, shirtIndex, updatedShirt);
     },

@@ -24,7 +24,7 @@
       <ShoppingItem
         v-show="!!cartItems.length"
         v-for="(cartItem, index) of cartItems"
-        :key="cartItem.id + cartItem.size"
+        :key="cartItem.id +''+ cartItem.name +''+ cartItem.size"
         :shirt="cartItem"
         :currentIndex="index + 1"
         :lastIndex="cartItems.length"

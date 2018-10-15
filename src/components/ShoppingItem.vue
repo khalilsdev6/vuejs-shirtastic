@@ -18,7 +18,7 @@
                     <b-col cols="auto">
                         <div class="shopping_item--delete">
                             <b-img
-                                @click="$emit('remove', shirt.id)"
+                                @click="$emit('remove', shirt)"
                                 :src="require('../assets/icon-times.svg')"
                             />
                         </div>
@@ -50,7 +50,7 @@
                             type="text"
                             v-model.number.trim="shirt.quantity"
                             class="shopping_item--quantity"
-                            @input="$emit('update-quantity', parseInt($event, 10), shirt.id)"
+                            @input="$emit('update-quantity', parseInt($event, 10), shirt)"
                         />
                         <span class="shopping_item--price">@ {{ shirt.price }}</span>
                     </b-col>
