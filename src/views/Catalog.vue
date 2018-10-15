@@ -111,17 +111,14 @@ export default {
   },
   methods: {
     addItemToCart: function(newShirt) {
-      console.log(newShirt);
       let shirtIndexIfExist = this.cartItems.findIndex(
         cartItem => cartItem.size === newShirt.size && cartItem.id === newShirt.id
       );
-      console.log(shirtIndexIfExist);
       let cartItem = this.cartItems.find(
         cartItem => cartItem.size === newShirt.size && cartItem.id === newShirt.id
       );
       // increase quantity if shirt exist
       if (shirtIndexIfExist > -1) {
-        console.log(cartItem.size, cartItem.name, cartItem.quantity);
         cartItem.quantity += 1;
       }
       // add new shirt if doesn't exist

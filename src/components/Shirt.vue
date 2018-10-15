@@ -1,7 +1,7 @@
 <template>
   <b-col class="shirt" sm="12" md="3" lg="3" xl="3">
     <b-card :style="{ fontFamily: shirt.font }">
-      <div :class="{'shirt--overlay': addShirtWithSize}"></div>
+      <div :class="{'shirt--overlay': addShirtWithSize}" @mouseout="addShirtWithSize=false"></div>
       <div class="shirt--sizes" v-show="addShirtWithSize" @mouseover="addShirtWithSize=true">
         <div class="shirt--sizes-block">
           <div @click="addShirt('XL')" class="shirt--size">XL</div>
@@ -52,7 +52,7 @@ export default {
   props: ["shirt"],
   data: function() {
     return {
-      addShirtWithSize: true
+      addShirtWithSize: false
     };
   },
   methods: {
